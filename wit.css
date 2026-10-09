@@ -1,0 +1,14 @@
+.WITPage-combined-single-setting {
+    display: flex; 
+    flex-direction: column; 
+    gap: 1em;
+}
+.WITPage-start-and-share-div {
+    display: flex; 
+    justify-content: space-around;
+}
+.WITPage-dialog-btn-rearrange {
+    display: flex; 
+    gap: 1em; 
+    justify-content: center;
+}
