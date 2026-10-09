@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="settings">
+        <div><h1>Workout Interval Timer</h1></div>
+        <div><h3>&copy; 2026 - Justus Decker - Written in HTML, CSS & JS </h3></div>
+        
+        <div style="display: flex; flex-direction: column; gap: 1em;">
+            <h3>Work</h3>
+            <input type="number" id="work_length_num" name="work_length_num" min="20" oninput="WIT.SetRange()">
+            <input type="range" id="work_length" name="work_length" min="20" max="60" onmousemove="WIT.SetLabels()">
+          
+            
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1em;">
+            <h3>Pause</h3>
+            <input type="number" id="pause_length_num" name="pause_length_num" min="20" oninput="WIT.SetRange()">
+            <input type="range" id="pause_length" name="pause_length" min="20" max="60" onmousemove="WIT.SetLabels()">
+          
+            
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1em;">
+            <h3>Runden</h3>
+            <input type="number" id="rounds_num" name="rounds_num" oninput="WIT.SetRange()">
+            <input type="range" id="rounds" name="rounds" min="1" max="60" onmousemove="WIT.SetLabels()">
+          
+            
+        </div>
+        
+
+        <div>
+            <input type="checkbox" id="sound_active" name="sound_active" onclick="WIT.SetSound()">
+            <label for="sound_active">Sound</label>
+        </div>
+        <div>
+            <input type="checkbox" id="warmup_active" name="warmup_active" onclick="WIT.SetWarmup()">
+            <label for="warmup_active">Füge Aufwärmrunde hinzu</label>
+        </div>
+
+        <div style="display: flex; justify-content: space-around;">
+            <a class="btn" onclick="WIT.StartTimer()">START</a>
+            <a class="btn">TEILEN</a>
+        </div>
+    </div>
+    <dialog id="timer-dialog">
+        <div class="timer">
+            <div id="roundIdentifier" style="font-size: 12em; text-align: center;">Work</div>
+            <div id="time">null</div>
+            <div id="round">0</div>
+            <div style="display: flex; gap: 1em; justify-content: center;">
+                <a class="btn" style="background-color: #cfd66e;">PAUSE</a>
+                <a class="btn" style="background-color: #83d66e;">Rundenneustart</a>
+                <a class="btn" style="background-color: #d66e6e;" onclick="WIT.StopTimer()">STOP</a>
+            </div>
+        </div>
+    </dialog>
+    <script src="./wit.js"></script>
+</body>
+</html>
