@@ -135,8 +135,8 @@ export const WorkoutIntervalTimer = () => {
     }
     
     useEffect(() => {
-        let interval: number;
-        setInterval(() => {
+        
+        let interval: number = setInterval(() => {
             if (!INTERVAL.timerIsRunning) {
                 return;
             }
