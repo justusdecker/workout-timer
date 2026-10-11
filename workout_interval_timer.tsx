@@ -84,6 +84,7 @@ export const WorkoutIntervalTimer = () => {
     const soundDiv = useRef<HTMLInputElement>(null);
     
     const beep = useRef(new Audio('https://www.myinstants.com/media/sounds/3-2-1-countdown.mp3'));
+    const beepDuration = beep.current.duration;
     function SetRanges(){
         if (work_lengthDiv.current && work_length_numDiv.current) {
             work_lengthDiv.current.value = work_length_numDiv.current.value;
@@ -148,7 +149,7 @@ export const WorkoutIntervalTimer = () => {
             const secss = secs;
             let ns = Math.floor(ntime % 1000 / 100);
             let minutes_0 = mins < 10 ? `0${mins}` : `${mins}`;
-            let seconds_0 = mins < 10 ? `0${secs}` : `${secs}`;
+            let seconds_0 = secs < 10 ? `0${secs}` : `${secs}`;
 
             if (!time.current || !roundIdentifier.current || !round.current) {return}
 
@@ -186,9 +187,8 @@ export const WorkoutIntervalTimer = () => {
     }, []);
 
     useEffect(() => {
-        let interval: NodeJS.Timeout;
-        setInterval(() => {
-            console.log(INTERVAL.soundActive, INTERVAL.timerIsRunning, INTERVAL.beeped)
+        let interval: NodeJS.Timeout = setInterval(() => {
+            //console.log(INTERVAL.soundActive, INTERVAL.timerIsRunning, INTERVAL.beeped)
             /* 
             if (!INTERVAL.soundActive) {
                 return;
@@ -197,27 +197,40 @@ export const WorkoutIntervalTimer = () => {
             if (!INTERVAL.timerIsRunning) {
                 return;
             }
-            if (!INTERVAL.beeped) {
+            if (INTERVAL.beeped) {
                 return;
             }
-            
+            console.log('beep no')
             const ntime = Date.now() - INTERVAL.roundStartTime;
             let ms = Math.floor(ntime) - 500;
             
-            console.log(INTERVAL.pauseTime, INTERVAL.workTime)
-            if (INTERVAL.roundIdentifier == 0 && ms + (beep.current.duration * 1000) > INTERVAL.workTime * 1000) {
-                beep.current.play()
+            
+            console.log(INTERVAL.roundIdentifier == 0 , ms + (beepDuration * 1000) , INTERVAL.workTime * 1000)
+            if (INTERVAL.roundIdentifier == 0 && ms + (beepDuration * 1000) > INTERVAL.workTime * 1000) {
+                console.log('beep1')
+                playBeep()
+                INTERVAL.beeped = true;
             }
-            if (INTERVAL.roundIdentifier == 1 && ms + (beep.current.duration * 1000) > INTERVAL.pauseTime * 1000) {
-                beep.current.play()
+            if (INTERVAL.roundIdentifier == 1 && ms + (beepDuration * 1000) > INTERVAL.pauseTime * 1000) {
+                console.log('beep2')
+                playBeep()
+                INTERVAL.beeped = true;
             }
             
-            console.log(beep.current.paused)
-            INTERVAL.beeped = true;
+            
         }, 10)
 
         return () => clearInterval(interval);
-    }, [INTERVAL]);
+    }, [
+        INTERVAL.timerIsRunning, time.current?.innerText
+    ]);
+
+    const playBeep = () => {
+    beep.current.play().catch((error) => {
+        // Optional: handle browser autoplay policies
+        console.error("Audio playback failed:", error);
+    });
+};
 
     return (
         <>
@@ -247,7 +260,7 @@ export const WorkoutIntervalTimer = () => {
             <div ref={time} id="WITPage-time">null</div>
             <div ref={round} id="WITPage-round">0</div>
             <div className="WITPage-dialog-btn-rearrange">
-                <Button style={{backgroundColor: "#cfd66e"}}>PAUSE</Button>
+                <Button style={{backgroundColor: "#cfd66e"}} onClick={playBeep}>PAUSE</Button>
                 <Button style={{backgroundColor: "#83d66e"}}>Rundenneustart</Button>
                 <Button style={{backgroundColor: "#d66e6e"}} onClick={StopTimer}>STOP</Button>
             </div>
