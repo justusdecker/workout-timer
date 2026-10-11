@@ -135,7 +135,7 @@ export const WorkoutIntervalTimer = () => {
     }
     
     useEffect(() => {
-        let interval: NodeJS.Timeout;
+        let interval: number;
         setInterval(() => {
             if (!INTERVAL.timerIsRunning) {
                 return;
@@ -187,7 +187,7 @@ export const WorkoutIntervalTimer = () => {
     }, []);
 
     useEffect(() => {
-        let interval: NodeJS.Timeout = setInterval(() => {
+        let interval: number = setInterval(() => {
             //console.log(INTERVAL.soundActive, INTERVAL.timerIsRunning, INTERVAL.beeped)
             /* 
             if (!INTERVAL.soundActive) {
